@@ -17,7 +17,7 @@ import {
 
 export default function ProfilePage() {
   const [isEditing, setIsEditing] = useState(false);
-  const [originalProfile, setOriginalProfile] = useState(null);
+  const [originalProfile, setOriginalProfile] = useState<any>(null);
   const [profile, setProfile] = useState({
     fullName: "John Doe",
     email: "john.doe@example.com",
@@ -68,11 +68,15 @@ export default function ProfilePage() {
     setIsEditing(false);
   };
 
-const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const saveProfile = () => {
     setIsEditing(false);
     localStorage.setItem("user", JSON.stringify(profile));
     setOriginalProfile(null);
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    saveProfile();
   };
 
   const addExperience = () => {
@@ -90,7 +94,7 @@ const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     });
   };
 
-  const removeExperience = (index:number) => {
+  const removeExperience = (index: number) => {
     const newExperience = [...profile.experience];
     newExperience.splice(index, 1);
     setProfile({
@@ -99,7 +103,7 @@ const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     });
   };
 
-  const updateExperience = (index:number, field:string, value:any) => {
+  const updateExperience = (index: number, field: string, value: string) => {
     const newExperience = [...profile.experience];
     newExperience[index] = {
       ...newExperience[index],
@@ -125,7 +129,7 @@ const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     });
   };
 
-  const removeEducation = (index:number) => {
+  const removeEducation = (index: number) => {
     const newEducation = [...profile.education];
     newEducation.splice(index, 1);
     setProfile({
@@ -134,7 +138,7 @@ const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     });
   };
 
-  const updateEducation = (index:number, field:string, value:any) => {
+  const updateEducation = (index: number, field: string, value: string) => {
     const newEducation = [...profile.education];
     newEducation[index] = {
       ...newEducation[index],
@@ -177,9 +181,8 @@ const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
                   Cancel
                 </button>
                 <button
-                  onClick={handleSubmit}
-                  form="profile-form"
-                  type="submit"
+                  onClick={saveProfile}
+                  type="button"
                   className="inline-flex items-center px-4 py-2 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500"
                 >
                   Save Changes
