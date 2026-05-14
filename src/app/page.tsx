@@ -435,30 +435,45 @@ export default function Home() {
     }
   }, []);
 
-  // Create particles for background
-  const renderParticles = () => {
-    return Array.from({ length: 20 }).map((_, index) => {
-      const randomSize = Math.random() * 100 + 50;
-      const randomColor = `rgba(${Math.random() * 255}, ${
-        Math.random() * 255
-      }, ${Math.random() * 255}, 0.15)`;
+ const [particles, setParticles] = useState<
+  {
+    size: number;
+    color: string;
+    left: string;
+    top: string;
+  }[]
+>([]);
 
-      return (
-        <div
-          key={index}
-          className="particle absolute rounded-full mix-blend-screen filter blur-sm"
-          style={{
-            background: randomColor,
-            width: randomSize,
-            height: randomSize,
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
-          }}
-        />
-      );
-    });
-  };
+useEffect(() => {
+  const generatedParticles = Array.from({ length: 20 }).map(() => ({
+    size: Math.random() * 100 + 50,
 
+    color: `rgba(${Math.random() * 255}, ${
+      Math.random() * 255
+    }, ${Math.random() * 255}, 0.15)`,
+
+    left: `${Math.random() * 100}%`,
+    top: `${Math.random() * 100}%`,
+  }));
+
+  setParticles(generatedParticles);
+}, []);
+
+const renderParticles = () => {
+  return particles.map((particle, index) => (
+    <div
+      key={index}
+      className="particle absolute rounded-full mix-blend-screen filter blur-sm"
+      style={{
+        background: particle.color,
+        width: particle.size,
+        height: particle.size,
+        left: particle.left,
+        top: particle.top,
+      }}
+    />
+  ));
+};
   // Scroll animation for sections
   const FadeInSection = ({
     children,
