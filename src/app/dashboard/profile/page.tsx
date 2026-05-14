@@ -74,9 +74,19 @@ export default function ProfilePage() {
     setOriginalProfile(null);
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    saveProfile();
+  const handleSubmit = (
+  e: React.FormEvent<HTMLFormElement>
+) => {
+  e.preventDefault();
+
+  setIsEditing(false);
+
+  localStorage.setItem(
+    "user",
+    JSON.stringify(profile)
+  );
+
+  setOriginalProfile(null);
   };
 
   const addExperience = () => {
