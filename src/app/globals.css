@@ -1,0 +1,127 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: #f7f7f7;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* PERFORMANCE OPTIMIZATIONS */
+
+/* Use hardware acceleration for all animations */
+.animate-gpu {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+  will-change: transform;
+}
+
+/* Simplified animations that perform well on mobile */
+@keyframes simple-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes simple-slide-up {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* Optimized keyframes that use transform instead of multiple properties */
+@keyframes optimized-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+@keyframes optimized-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+/* Animation utility classes */
+.fade-in {
+  animation: simple-fade-in 0.5s ease forwards;
+}
+
+.slide-up {
+  animation: simple-slide-up 0.5s ease forwards;
+}
+
+.float {
+  animation: optimized-float 3s ease-in-out infinite;
+}
+
+.pulse {
+  animation: optimized-pulse 2s ease-in-out infinite;
+}
+
+/* Hover transitions */
+.hover-scale {
+  transition: transform 0.2s ease;
+}
+
+.hover-scale:hover {
+  transform: scale(1.03);
+}
+
+/* Performance detection - add this class via JS to body when needed */
+.reduce-motion * {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}
+
+/* Add this to specific elements that need GPU acceleration */
+.gpu {
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+/* Optimization for mobile devices */
+@media (max-width: 768px) {
+  /* Reduce animation complexity on mobile */
+  .float {
+    animation-duration: 5s;
+  }
+  
+  .pulse {
+    animation-duration: 3s;
+  }
+  
+  /* Completely disable animations on slower devices 
+     (Add the .low-end class via JS to the body when needed) */
+  .low-end * {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+  }
+  
+  /* Improve touch targets for mobile */
+  button, 
+  a, 
+  [role="button"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Reduce motion for users who prefer it */
+  @media (prefers-reduced-motion) {
+    * {
+      animation: none !important;
+      transition: none !important;
+    }
+  }
+}
